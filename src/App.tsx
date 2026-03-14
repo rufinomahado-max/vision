@@ -141,6 +141,7 @@ const App: React.FC = () => {
         ref={radioPlayerRef}
         src="https://stream.zeno.fm/p6tefup8v1mvv"
         preload="none"
+        autoPlay
       />
 
       <div style={{ margin: "20px 0" }}>
@@ -200,46 +201,3 @@ const App: React.FC = () => {
 
       <div>
         <label>Enviar Músicas</label>
-        <br />
-        <input
-          type="file"
-          accept="audio/*"
-          multiple
-          onChange={handleSongsUpload}
-        />
-      </div>
-
-      <div style={{ marginTop: "30px" }}>
-        <h2>Minhas Músicas</h2>
-
-        {currentSong && (
-          <p>
-            <b>Tocando agora:</b> {currentSong}
-          </p>
-        )}
-
-        <audio
-          ref={musicPlayerRef}
-          controls
-          onEnded={handleMusicEnd}
-          style={{
-            width: "100%",
-            display: songs.length > 0 ? "block" : "none",
-          }}
-        />
-
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {songs.map((song, index) => (
-            <li key={index} style={{ margin: "10px 0" }}>
-              <button style={buttonStyle} onClick={() => playSong(song)}>
-                🎵 {song.name}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-};
-
-export default App;
