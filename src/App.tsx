@@ -5,7 +5,6 @@ const App: React.FC = () => {
   const musicPlayerRef = useRef<HTMLAudioElement>(null);
 
   const [volume, setVolume] = useState(50);
-  const [coverSrc, setCoverSrc] = useState<string | null>(null);
   const [songs, setSongs] = useState<Array<{ name: string; src: string }>>([]);
   const [currentSong, setCurrentSong] = useState<string | null>(null);
 
@@ -13,11 +12,9 @@ const App: React.FC = () => {
     if (radioPlayerRef.current) {
       radioPlayerRef.current.play();
     }
-
     if (musicPlayerRef.current) {
       musicPlayerRef.current.pause();
     }
-
     setCurrentSong(null);
   };
 
@@ -34,23 +31,8 @@ const App: React.FC = () => {
     if (radioPlayerRef.current) {
       radioPlayerRef.current.volume = newVolume;
     }
-
     if (musicPlayerRef.current) {
       musicPlayerRef.current.volume = newVolume;
-    }
-  };
-
-  const handleCoverUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        setCoverSrc(event.target?.result as string);
-      };
-
-      reader.readAsDataURL(file);
     }
   };
 
@@ -83,7 +65,6 @@ const App: React.FC = () => {
       musicPlayerRef.current.play();
       setCurrentSong(song.name);
     }
-
     if (radioPlayerRef.current) {
       radioPlayerRef.current.pause();
     }
@@ -91,7 +72,6 @@ const App: React.FC = () => {
 
   const handleMusicEnd = () => {
     setCurrentSong(null);
-
     if (radioPlayerRef.current) {
       radioPlayerRef.current.play();
     }
@@ -128,13 +108,12 @@ const App: React.FC = () => {
         <h1>Vision Midia Digital</h1>
         <p>Conectado com você onde quer que vá</p>
 
-        {coverSrc && (
-          <img
-            src={coverSrc}
-            alt="Capa da Rádio"
-            style={{ width: "100%", borderRadius: "8px" }}
-          />
-        )}
+        {/* Sua logo oficial */}
+        <img
+          src="/logo.jpeg"
+          alt="Capa Oficial da Rádio"
+          style={{ width: "100%", borderRadius: "8px", marginTop: "15px" }}
+        />
       </header>
 
       <audio
@@ -191,13 +170,50 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      <div>
-        <label>Enviar Capa para Rádio</label>
-        <br />
-        <input type="file" accept="image/*" onChange={handleCoverUpload} />
-      </div>
-
       <br />
 
       <div>
         <label>Enviar Músicas</label>
+        <br />
+        <input
+          type="file"
+          accept="audio/*"
+          multiple
+          onChange={handleSongsUpload}
+        />
+      </div>
+
+      <div style={{ marginTop: "30px" }}>
+        <h2>Minhas Músicas</h2>
+
+        {currentSong && (
+          <p>
+            <b>Tocando agora:</b> {currentSong}
+          </p>
+        )}
+
+        <audio
+          ref={musicPlayerRef}
+          controls
+          onEnded={handleMusicEnd}
+          style={{
+            width: "100%",
+            display: songs.length > 0 ? "block" : "none",
+          }}
+        />
+
+        <ul style={{ listStyle: "none", padding: 0 }}>
+          {songs.map((song, index) => (
+            <li key={index} style={{ margin: "10px 0" }}>
+              <button style={buttonStyle} onClick={() => playSong(song)}>
+                🎵 {song.name}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default App;
