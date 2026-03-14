@@ -164,7 +164,7 @@ const App: React.FC = () => {
         {/* ANÚNCIO WHATSAPP */}
         <div style={{ marginTop: "20px" }}>
           <p style={{ fontWeight: "bold", color: "#6200ea" }}>
-            ANÚNCIE AQUI
+            ANÚNCIE AQUI NA RÁDIO
             <br />
           </p>
 
@@ -191,7 +191,7 @@ const App: React.FC = () => {
       </div>
 
       <div>
-        <label>Enviar Capa da Rádio</label>
+        <label>Enviar Capa para Rádio</label>
         <br />
         <input type="file" accept="image/*" onChange={handleCoverUpload} />
       </div>
